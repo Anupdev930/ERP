@@ -1,0 +1,182 @@
+/* =========================================================
+   RESPONSIVE OVERRIDES - SGD ERP
+   (Ensures smooth UI on mobile, tablet, and desktop)
+========================================================= */
+
+/* --- GENERAL MOBILE OPTIMIZATIONS --- */
+@media (max-width: 767.98px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .content-area {
+    padding: 12px !important;
+  }
+
+  .top-header {
+    padding: 0 12px !important;
+  }
+
+  .page-title {
+    font-size: 18px !important;
+  }
+
+  /* Compact toolbars */
+  .row.mb-3.g-2 {
+    margin-bottom: 10px !important;
+  }
+  
+  .input-group-text, .form-control, .form-select, .btn {
+    font-size: 14px !important;
+  }
+  
+  /* Make buttons stretch on mobile for better touch targets */
+  .action-btns .btn, 
+  .d-flex.justify-content-md-end .btn {
+    padding: 8px 12px;
+    margin-bottom: 5px;
+  }
+  
+  /* Modals */
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+  
+  .modal-body {
+    padding: 15px;
+  }
+  
+  /* Invoice container for mobile */
+  .invoice-container {
+    padding: 15px !important;
+    font-size: 12px !important;
+  }
+  
+  .invoice-title {
+    font-size: 18px !important;
+  }
+  
+  .invoice-logo {
+    font-size: 20px !important;
+  }
+
+  /* Stat cards spacing */
+  .stat-card {
+    padding: 15px !important;
+  }
+  
+  .stat-icon {
+    font-size: 36px !important;
+    right: 5px !important;
+    bottom: 5px !important;
+  }
+}
+
+/* --- TABLET (768px - 991.98px) --- */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .content-area {
+    padding: 16px !important;
+  }
+  
+  .stat-card {
+    padding: 16px !important;
+  }
+  
+  .stat-value {
+    font-size: 22px !important;
+  }
+}
+
+/* --- FIXING TABLES ON SMALL SCREENS --- */
+@media (max-width: 991.98px) {
+  /* Ensure tables scroll smoothly */
+  .table-responsive {
+    border: 0;
+    margin-bottom: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .erp-table th, .erp-table td {
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+    white-space: nowrap; /* Prevent wrapping in cells */
+  }
+  
+  .table-responsive::-webkit-scrollbar {
+    height: 4px;
+  }
+  .table-responsive::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 4px;
+  }
+}
+
+/* --- SIDEBAR HAMBURGER ICON FIX --- */
+/* Ensure the hamburger toggle is always accessible on mobile/tablet */
+@media (max-width: 768px) {
+  .sidebar-toggle {
+    display: inline-block !important;
+  }
+  
+  /* User profile in header */
+  .top-header .header-right .text-muted {
+    display: none !important; /* Hide username text on mobile */
+  }
+  
+  .top-header .header-right .dropdown i {
+    font-size: 22px !important;
+  }
+}
+
+/* --- RESPONSIVE FORMS AND SEARCH BARS --- */
+@media (max-width: 575.98px) {
+  .input-group,
+  .form-select,
+  .btn-outline-secondary,
+  .btn-primary {
+    width: 100% !important; /* Full width fields on extra small */
+    margin-bottom: 8px;
+  }
+  
+  .d-flex.justify-content-md-end {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .d-flex.justify-content-md-end .btn {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+}
+
+/* --- FIX FOR DROPDOWN MENUS --- */
+@media (max-width: 768px) {
+  .dropdown-menu-end {
+    right: auto !important;
+    left: -120px !important; /* Adjust dropdown position to not overflow offscreen */
+  }
+}
+
+/* --- FLOATING ACTION BUTTON FOR ADD ITEMS (Optional enhancement) --- */
+@media (max-width: 576px) {
+  .floating-action-mobile {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1020;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+  .floating-action-mobile i {
+    margin: 0 !important;
+    font-size: 24px;
+  }
+  .floating-action-mobile span {
+    display: none !important;
+  }
+}
