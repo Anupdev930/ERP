@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users - SGD ERP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet"><link href="css/responsive.css" rel="stylesheet">
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="bi bi-box-seam-fill"></i>
+          <span class="sidebar-logo-text">SGD ERP</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" href="dashboard.html" data-page="dashboard"><i class="bi bi-speedometer2"></i><span class="nav-text">Dashboard</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="inventory.html" data-page="inventory"><i class="bi bi-box-seam"></i><span class="nav-text">Inventory</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="sales.html" data-page="sales"><i class="bi bi-receipt"></i><span class="nav-text">Sales</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="purchase.html" data-page="purchase"><i class="bi bi-cart3"></i><span class="nav-text">Purchase</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="parties.html" data-page="parties"><i class="bi bi-people"></i><span class="nav-text">Parties</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="reports.html" data-page="reports"><i class="bi bi-graph-up"></i><span class="nav-text">Reports</span></a></li>
+          <li class="nav-item"><a class="nav-link active" href="users.html" data-page="users"><i class="bi bi-person-gear"></i><span class="nav-text">Users</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <a class="nav-link" href="#" onclick="SGD.logout()">
+          <i class="bi bi-box-arrow-right"></i>
+          <span class="nav-text">Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+      <header class="top-header">
+        <div class="d-flex align-items-center justify-content-between px-4">
+          <div class="d-flex align-items-center">
+            <button class="btn btn-link text-dark sidebar-toggle p-0 me-3" id="sidebarToggle" onclick="SGD.toggleSidebar()">
+              <i class="bi bi-list fs-4"></i>
+            </button>
+            <h5 class="mb-0 page-title">Users</h5>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <span class="text-muted" id="currentUserDisplay"></span>
+            <div class="dropdown">
+              <button class="btn btn-link text-dark p-0" data-bs-toggle="dropdown">
+                <i class="bi bi-person-circle fs-4"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item text-danger" href="#" onclick="SGD.logout()"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-area p-4">
+        <!-- Toolbar -->
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+              <input type="text" class="form-control" id="searchUserInput" placeholder="Search by name, username, role...">
+            </div>
+          </div>
+          <div class="col-md-6 text-md-end mt-2 mt-md-0">
+            <button class="btn btn-primary" onclick="openAddUserModal()">
+              <i class="bi bi-plus-lg me-1"></i> Add User
+            </button>
+          </div>
+        </div>
+
+        <!-- Users Table Card -->
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                  <tr><td colspan="8" class="text-center text-muted py-4">Loading users...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Modal (Add/Edit) -->
+  <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="userModalTitle">Add User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="userForm">
+            <input type="hidden" id="userId">
+            <div class="mb-3">
+              <label class="form-label">Full Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="userFullName" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Username <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="formUserName" required>
+            </div>
+            <div class="mb-3" id="passwordGroup">
+              <label class="form-label">Password <span class="text-danger">*</span></label>
+              <input type="password" class="form-control" id="userPassword" required minlength="4">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Role <span class="text-danger">*</span></label>
+              <select class="form-select" id="formUserRole" required>
+                <option value="Admin">Admin</option>
+                <option value="Manager">Manager</option>
+                <option value="Staff">Staff</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" id="userEmail">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Phone</label>
+              <input type="text" class="form-control" id="userPhone">
+            </div>
+            <div class="mb-3" id="statusGroup" style="display: none;">
+              <label class="form-label">Status <span class="text-danger">*</span></label>
+              <select class="form-select" id="userStatus">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="saveUser()">Save User</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset Password Modal -->
+  <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Reset Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="resetPasswordForm">
+            <input type="hidden" id="resetUserId">
+            <div class="mb-3">
+              <label class="form-label">New Password</label>
+              <input type="password" class="form-control" id="newPassword" required minlength="4">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" onclick="submitResetPassword()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay" style="display:none;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/users.js"></script>
+</body>
+</html>

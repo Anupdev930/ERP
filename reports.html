@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports - SGD ERP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet"><link href="css/responsive.css" rel="stylesheet">
+  <style>
+      .report-card { transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; border-radius: 12px; }
+      .report-card:hover { transform: translateY(-5px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important; }
+      .report-icon { font-size: 2.5rem; }
+      
+      /* Enhanced Report Tables */
+      #reportTableContainer table,
+      #secondaryReportTableContainer table {
+          border-collapse: separate;
+          border-spacing: 0;
+          border-radius: 8px;
+          overflow: hidden;
+          border: 1px solid #e2e8f0;
+          font-size: 14px;
+      }
+      #reportTableContainer thead th,
+      #secondaryReportTableContainer thead th {
+          background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 100%);
+          color: white;
+          font-weight: 600;
+          padding: 12px 16px;
+          border: none;
+          white-space: nowrap;
+          font-size: 13px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+      }
+      #reportTableContainer tbody td,
+      #secondaryReportTableContainer tbody td {
+          padding: 10px 16px;
+          border-bottom: 1px solid #f1f5f9;
+          vertical-align: middle;
+      }
+      #reportTableContainer tbody tr:hover,
+      #secondaryReportTableContainer tbody tr:hover {
+          background-color: #f0f7ff;
+      }
+      #reportTableContainer tbody tr:last-child td,
+      #secondaryReportTableContainer tbody tr:last-child td {
+          border-bottom: none;
+      }
+      #reportTableContainer tbody tr:nth-child(even),
+      #secondaryReportTableContainer tbody tr:nth-child(even) {
+          background-color: #f8fafc;
+      }
+      #reportTableContainer tbody tr:nth-child(even):hover,
+      #secondaryReportTableContainer tbody tr:nth-child(even):hover {
+          background-color: #f0f7ff;
+      }
+  </style>
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="bi bi-box-seam-fill"></i>
+          <span class="sidebar-logo-text">SGD ERP</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="dashboard.html" data-page="dashboard">
+              <i class="bi bi-speedometer2"></i>
+              <span class="nav-text">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="inventory.html" data-page="inventory">
+              <i class="bi bi-box-seam"></i>
+              <span class="nav-text">Inventory</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sales.html" data-page="sales">
+              <i class="bi bi-receipt"></i>
+              <span class="nav-text">Sales</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="purchase.html" data-page="purchase">
+              <i class="bi bi-cart3"></i>
+              <span class="nav-text">Purchase</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="parties.html" data-page="parties">
+              <i class="bi bi-people"></i>
+              <span class="nav-text">Parties</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="reports.html" data-page="reports">
+              <i class="bi bi-graph-up"></i>
+              <span class="nav-text">Reports</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="users.html" data-page="users">
+              <i class="bi bi-person-gear"></i>
+              <span class="nav-text">Users</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <a class="nav-link" href="#" onclick="SGD.logout()">
+          <i class="bi bi-box-arrow-right"></i>
+          <span class="nav-text">Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+      <header class="top-header">
+        <div class="d-flex align-items-center justify-content-between px-4">
+          <div class="d-flex align-items-center">
+            <button class="btn btn-link text-dark sidebar-toggle p-0 me-3" id="sidebarToggle" onclick="SGD.toggleSidebar()">
+              <i class="bi bi-list fs-4"></i>
+            </button>
+            <h5 class="mb-0 page-title">Reports & Analytics</h5>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <span class="text-muted" id="currentUserDisplay"></span>
+            <div class="dropdown">
+              <button class="btn btn-link text-dark p-0" data-bs-toggle="dropdown">
+                <i class="bi bi-person-circle fs-4"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger" href="#" onclick="SGD.logout()"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-area p-4">
+        
+        <!-- Report Selection Cards -->
+        <div id="reportSelectionArea">
+            <h6 class="mb-4 text-muted">Select a report to generate</h6>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 report-card" onclick="selectReport('sales')">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-graph-up text-success report-icon mb-3 d-block"></i>
+                            <h5 class="card-title">Sales Report</h5>
+                            <p class="card-text text-muted small">View sales invoices, taxable amount, tax collected and status.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 report-card" onclick="selectReport('purchase')">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-cart3 text-primary report-icon mb-3 d-block"></i>
+                            <h5 class="card-title">Purchase Report</h5>
+                            <p class="card-text text-muted small">View purchase bills, tax paid, and supplier balances.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 report-card" onclick="selectReport('stock')">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-box-seam text-purple report-icon mb-3 d-block" style="color: #6f42c1;"></i>
+                            <h5 class="card-title">Stock Report</h5>
+                            <p class="card-text text-muted small">Current inventory levels, valuation, and potential profit.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 report-card" onclick="selectReport('outstanding')">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-cash-coin text-warning report-icon mb-3 d-block"></i>
+                            <h5 class="card-title">Outstanding Report</h5>
+                            <p class="card-text text-muted small">Track receivables and payables across all parties.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 report-card" onclick="selectReport('gst')">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-file-earmark-text text-info report-icon mb-3 d-block"></i>
+                            <h5 class="card-title">GST Report</h5>
+                            <p class="card-text text-muted small">Tax collection and payment summary categorized by HSN.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 report-card" onclick="selectReport('pnl')">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-currency-rupee text-danger report-icon mb-3 d-block"></i>
+                            <h5 class="card-title">Profit & Loss</h5>
+                            <p class="card-text text-muted small">Summary of revenues, costs, and net profit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report View Area (Hidden by default) -->
+        <div id="reportDisplayArea" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <button class="btn btn-sm btn-outline-secondary me-3" onclick="backToReportSelection()">
+                        <i class="bi bi-arrow-left"></i> Back
+                    </button>
+                    <h5 class="d-inline-block mb-0" id="currentReportTitle">Report Title</h5>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-primary" onclick="exportToCSV()">
+                        <i class="bi bi-download me-1"></i> Export CSV
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="printReport()">
+                        <i class="bi bi-printer me-1"></i> Print
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="card shadow-sm mb-4 bg-light">
+                <div class="card-body">
+                    <form id="reportFilterForm" class="row g-3 align-items-end" onsubmit="event.preventDefault(); generateReport();">
+                        <div class="col-md-4" id="dateFilterCol">
+                            <label class="form-label small text-muted">Date Range</label>
+                            <input type="text" class="form-control" id="reportDateRange" placeholder="Select Date Range">
+                        </div>
+                        <div class="col-md-3" id="partyFilterCol" style="display: none;">
+                            <label class="form-label small text-muted">Party</label>
+                            <select class="form-select" id="reportParty">
+                                <option value="">All Parties</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3" id="itemFilterCol" style="display: none;">
+                            <label class="form-label small text-muted">Item / Category</label>
+                            <input type="text" class="form-control" id="reportItem" placeholder="Search item...">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">Generate</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Report Summary Cards -->
+            <div class="row mb-4" id="reportSummaryCards">
+                <!-- Rendered dynamically -->
+            </div>
+
+            <!-- Report Table -->
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="table-responsive" id="reportTableContainer">
+                        <!-- Table rendered by JS -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Report Section (For Outstanding/PnL) -->
+            <div class="card shadow-sm mt-4" id="secondaryReportContainer" style="display: none;">
+                <div class="card-body">
+                    <h5 class="card-title" id="secondaryReportTitle">Secondary Section</h5>
+                    <div class="table-responsive" id="secondaryReportTableContainer">
+                        <!-- Table rendered by JS -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-overlay" id="loadingOverlay" style="display:none;">
+    <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="js/app.js"></script>
+  <script src="js/reports.js"></script>
+</body>
+</html>

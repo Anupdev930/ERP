@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - SGD ERP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet"><link href="css/responsive.css" rel="stylesheet">
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="bi bi-box-seam-fill"></i>
+          <span class="sidebar-logo-text">SGD ERP</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="dashboard.html" data-page="dashboard">
+              <i class="bi bi-speedometer2"></i>
+              <span class="nav-text">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="inventory.html" data-page="inventory">
+              <i class="bi bi-box-seam"></i>
+              <span class="nav-text">Inventory</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sales.html" data-page="sales">
+              <i class="bi bi-receipt"></i>
+              <span class="nav-text">Sales</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="purchase.html" data-page="purchase">
+              <i class="bi bi-cart3"></i>
+              <span class="nav-text">Purchase</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="parties.html" data-page="parties">
+              <i class="bi bi-people"></i>
+              <span class="nav-text">Parties</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="reports.html" data-page="reports">
+              <i class="bi bi-graph-up"></i>
+              <span class="nav-text">Reports</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="users.html" data-page="users">
+              <i class="bi bi-person-gear"></i>
+              <span class="nav-text">Users</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <a class="nav-link" href="#" onclick="SGD.logout()">
+          <i class="bi bi-box-arrow-right"></i>
+          <span class="nav-text">Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+      <header class="top-header">
+        <div class="d-flex align-items-center justify-content-between px-4">
+          <div class="d-flex align-items-center">
+            <button class="btn btn-link text-dark sidebar-toggle p-0 me-3" id="sidebarToggle" onclick="SGD.toggleSidebar()">
+              <i class="bi bi-list fs-4"></i>
+            </button>
+            <h5 class="mb-0 page-title">Dashboard</h5>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <span class="text-muted" id="currentUserDisplay"></span>
+            <div class="dropdown">
+              <button class="btn btn-link text-dark p-0" data-bs-toggle="dropdown">
+                <i class="bi bi-person-circle fs-4"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger" href="#" onclick="SGD.logout()"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-area p-4">
+        <!-- KPI Cards Row -->
+        <div class="row g-4 mb-4">
+          <div class="col-md-3">
+            <div class="stat-card stat-card-orange">
+              <div class="stat-icon-wrapper">
+                <i class="bi bi-graph-up-arrow"></i>
+              </div>
+              <div class="stat-details">
+                <div class="stat-value" id="kpiTodaySales">₹ 0.00</div>
+                <div class="stat-title">Today's Sales</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-card stat-card-green">
+              <div class="stat-icon-wrapper">
+                <i class="bi bi-calendar-check"></i>
+              </div>
+              <div class="stat-details">
+                <div class="stat-value" id="kpiMonthSales">₹ 0.00</div>
+                <div class="stat-title">This Month Sales</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-card stat-card-cyan">
+              <div class="stat-icon-wrapper">
+                <i class="bi bi-cash-coin"></i>
+              </div>
+              <div class="stat-details">
+                <div class="stat-value" id="kpiReceivable">₹ 0.00</div>
+                <div class="stat-title">Outstanding Receivable</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-card stat-card-purple">
+              <div class="stat-icon-wrapper">
+                <i class="bi bi-credit-card"></i>
+              </div>
+              <div class="stat-details">
+                <div class="stat-value" id="kpiPayable">₹ 0.00</div>
+                <div class="stat-title">Outstanding Payable</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions Row -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card border-0 shadow-sm">
+              <div class="card-body p-3 d-flex gap-3 flex-wrap">
+                <a href="sales.html" class="btn btn-success"><i class="bi bi-plus-lg me-2"></i>New Sale</a>
+                <a href="purchase.html" class="btn btn-primary"><i class="bi bi-plus-lg me-2"></i>New Purchase</a>
+                <a href="inventory.html" class="btn btn-outline-primary"><i class="bi bi-plus-lg me-2"></i>Add Item</a>
+                <a href="parties.html" class="btn btn-outline-info"><i class="bi bi-plus-lg me-2"></i>Add Party</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row g-4 mb-4">
+          <div class="col-md-8">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-header bg-white border-0 pt-3">
+                <h6 class="mb-0 fw-bold">Sales vs Purchase (Last 6 Months)</h6>
+              </div>
+              <div class="card-body">
+                <canvas id="salesPurchaseChart" height="300"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-header bg-white border-0 pt-3">
+                <h6 class="mb-0 fw-bold">Top 5 Selling Items</h6>
+              </div>
+              <div class="card-body d-flex justify-content-center align-items-center">
+                <canvas id="topItemsChart" height="300"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tables Row -->
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-header bg-white border-0 pt-3 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 fw-bold">Recent Sales</h6>
+                <a href="sales.html" class="btn btn-sm btn-link text-decoration-none">View All</a>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                      <tr>
+                        <th>Invoice No</th>
+                        <th>Date</th>
+                        <th>Party</th>
+                        <th class="text-end">Amount</th>
+                        <th class="text-center">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="recentSalesTableBody">
+                      <!-- Rendered by JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-header bg-white border-0 pt-3 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 fw-bold">Low Stock Alert</h6>
+                <a href="inventory.html" class="btn btn-sm btn-link text-decoration-none">Manage Inventory</a>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                      <tr>
+                        <th>Item</th>
+                        <th class="text-end">Stock</th>
+                        <th class="text-end">Min Level</th>
+                        <th class="text-center">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="lowStockTableBody">
+                      <!-- Rendered by JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay" style="display:none;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Minimal dashboard logic to initialize charts and tables placeholder
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Fetch live dashboard data
+      if (typeof SGD !== 'undefined' && SGD.api) {
+        try {
+          SGD.showLoading();
+          const res = await SGD.api('getDashboardData');
+          console.log('Dashboard API Response:', res);
+          if (res && res.data) {
+            const d = res.data;
+            document.getElementById('kpiTodaySales').textContent = `${SGD.formatCurrency(d.todaySales || 0)}`;
+            document.getElementById('kpiMonthSales').textContent = `${SGD.formatCurrency(d.monthSales || 0)}`;
+            document.getElementById('kpiReceivable').textContent = `${SGD.formatCurrency(d.totalReceivables || 0)}`;
+            document.getElementById('kpiPayable').textContent = `${SGD.formatCurrency(d.totalPayables || 0)}`;
+            
+            // Dynamic Charts
+            if (res.data.chartData) {
+              const cData = res.data.chartData;
+              const ctx1 = document.getElementById('salesPurchaseChart');
+              if (ctx1) {
+                new Chart(ctx1, {
+                  type: 'bar',
+                  data: {
+                    labels: cData.months,
+                    datasets: [
+                      { label: 'Sales', data: cData.sales, backgroundColor: 'rgba(17, 153, 142, 0.85)', borderRadius: 6, borderSkipped: false },
+                      { label: 'Purchases', data: cData.purchases, backgroundColor: 'rgba(102, 126, 234, 0.85)', borderRadius: 6, borderSkipped: false }
+                    ]
+                  },
+                  options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 15 } } },
+                    scales: { 
+                      y: { beginAtZero: true, ticks: { callback: v => '₹' + (v/1000) + 'K' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                      x: { grid: { display: false } }
+                    }
+                  }
+                });
+              }
+
+              const ctx2 = document.getElementById('topItemsChart');
+              if (ctx2) {
+                new Chart(ctx2, {
+                  type: 'doughnut',
+                  data: {
+                    labels: cData.topItems.labels,
+                    datasets: [{
+                      data: cData.topItems.data,
+                      backgroundColor: ['#667eea', '#11998e', '#f7971e', '#eb3349', '#2193b0'],
+                      borderWidth: 0,
+                      hoverOffset: 8
+                    }]
+                  },
+                  options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 12, font: { size: 11 } } } }
+                  }
+                });
+              }
+            }
+            
+            // Populate recent sales
+            const salesTbody = document.getElementById('recentSalesTableBody');
+            salesTbody.innerHTML = '';
+            const recentSales = res.data.recentSales || [];
+            if (recentSales.length === 0) {
+              salesTbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No recent sales</td></tr>';
+            } else {
+              recentSales.slice(0, 5).forEach(s => {
+                const paymentStatus = s.PaymentStatus || s.Status || 'Unpaid';
+                let statusBadge = paymentStatus === 'Paid' ? 'bg-success' : (paymentStatus === 'Unpaid' ? 'bg-danger' : 'bg-warning text-dark');
+                let dateStr = SGD.formatDate(s.InvoiceDate || s.date || '');
+                salesTbody.innerHTML += `
+                  <tr>
+                    <td>${s.InvoiceID || s.InvoiceNo || '-'}</td>
+                    <td>${dateStr}</td>
+                    <td>${s.PartyName || '-'}</td>
+                    <td class="text-end fw-medium">${SGD.formatCurrency(s.TotalAmount || s.GrandTotal || 0)}</td>
+                    <td class="text-center"><span class="badge ${statusBadge}">${paymentStatus}</span></td>
+                  </tr>
+                `;
+              });
+            }
+
+            // Populate low stock
+            const lowStockTbody = document.getElementById('lowStockTableBody');
+            if (lowStockTbody) {
+                lowStockTbody.innerHTML = '';
+                const lowStockItems = res.data.lowStockItems || [];
+                if (lowStockItems.length === 0) {
+                    lowStockTbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">No low stock items</td></tr>';
+                } else {
+                    lowStockItems.forEach(i => {
+                        lowStockTbody.innerHTML += `
+                        <tr>
+                            <td>${i.ItemName || '-'}</td>
+                            <td class="text-end fw-bold text-danger">${i.CurrentStock || 0}</td>
+                            <td class="text-end">${i.MinStock || 0}</td>
+                            <td class="text-center"><span class="badge bg-danger">Low Stock</span></td>
+                        </tr>
+                        `;
+                    });
+                }
+            }
+          }
+        } catch (e) {
+          console.error("Failed to load dashboard data", e);
+          SGD.showToast('Failed to load live dashboard data. Please check backend connection.', 'danger');
+        } finally {
+          SGD.hideLoading();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
