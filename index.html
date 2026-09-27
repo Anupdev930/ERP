@@ -1,78 +1,354 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGD ERP - Login</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body class="login-page">
-
-    <div class="login-card fade-in">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SGD ERP</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/responsive.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div id="login-view" class="login-page">
+      <div class="login-card fade-in">
         <div class="login-left">
-            <div class="login-branding">
-                <h1><i class="bi bi-box-seam me-2"></i>SGD ERP</h1>
-                <p>Inventory Management System</p>
-                <div class="mt-4" style="opacity: 0.8; font-size: 14px;">
-                    <p><i class="bi bi-check-circle me-2"></i> Wallpaper & Interior Decoration</p>
-                    <p><i class="bi bi-check-circle me-2"></i> Sales & Purchase Tracking</p>
-                    <p><i class="bi bi-check-circle me-2"></i> Financial Analytics</p>
-                </div>
+          <div class="login-branding">
+            <h1><i class="bi bi-box-seam me-2"></i>SGD ERP</h1>
+            <p>Inventory Management System</p>
+            <div class="mt-4" style="opacity: 0.8; font-size: 14px">
+              <p>
+                <i class="bi bi-check-circle me-2"></i> Wallpaper & Interior
+                Decoration
+              </p>
+              <p>
+                <i class="bi bi-check-circle me-2"></i> Sales & Purchase
+                Tracking
+              </p>
+              <p><i class="bi bi-check-circle me-2"></i> Financial Analytics</p>
             </div>
+          </div>
         </div>
         <div class="login-right">
-            <h2>Welcome Back</h2>
-            <form id="loginForm">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-person"></i></span>
-                        <input type="text" class="form-control" id="username" placeholder="Enter username" required>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                        <input type="password" class="form-control" id="password" placeholder="Enter password" required>
-                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                            <i class="bi bi-eye"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Remember me</label>
-                    </div>
-                </div>
-                
-                <button type="submit" class="btn btn-login w-100 mb-3" id="loginBtn">
-                    <span id="btnText">Login</span>
-                    <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+          <h2>Welcome Back</h2>
+          <form id="loginForm">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <div class="input-group">
+                <span class="input-group-text"
+                  ><i class="bi bi-person"></i
+                ></span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  placeholder="Enter username"
+                  required
+                />
+              </div>
+            </div>
+            <div class="mb-4">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="Enter password"
+                  required
+                />
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  id="togglePassword"
+                >
+                  <i class="bi bi-eye"></i>
                 </button>
-                
-                <div id="loginAlert" class="alert alert-danger d-none" role="alert">
-                    Invalid username or password.
-                </div>
-                
-                <div class="text-center mt-3 text-muted" style="font-size: 12px;">
-                    <p>Demo Mode: admin / admin123</p>
-                    &copy; 2026 SGD. All rights reserved.
-                </div>
-            </form>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="rememberMe"
+                />
+                <label class="form-check-label" for="rememberMe"
+                  >Remember me</label
+                >
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-login w-100 mb-3"
+              id="loginBtn"
+            >
+              <span id="btnText">Login</span>
+              <span
+                id="btnSpinner"
+                class="spinner-border spinner-border-sm d-none"
+                role="status"
+                aria-hidden="true"
+              ></span>
+            </button>
+
+            <div id="loginAlert" class="alert alert-danger d-none" role="alert">
+              Invalid username or password.
+            </div>
+
+            <div class="text-center mt-3 text-muted" style="font-size: 12px">
+              <p class="mb-1"><strong>Demo Logins:</strong> admin / admin123 &bull; manager1 / manager123 &bull; staff1 / staff123</p>
+              &copy; 2026 SGD. All rights reserved.
+            </div>
+          </form>
         </div>
+      </div>
     </div>
 
-    <!-- Bootstrap JS -->
+    <div id="app-view" class="d-none w-100">
+      <div class="d-flex w-100" id="wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+          <div class="sidebar-header">
+            <div class="sidebar-logo">
+              <i class="bi bi-box-seam-fill"></i>
+              <span class="sidebar-logo-text">SGD ERP</span>
+            </div>
+          </div>
+          <nav class="sidebar-nav">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  href="dashboard.html"
+                  data-page="dashboard"
+                >
+                  <i class="bi bi-speedometer2"></i>
+                  <span class="nav-text">Dashboard</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="inventory.html" data-page="inventory">
+                  <i class="bi bi-box-seam"></i>
+                  <span class="nav-text">Inventory</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="sales.html" data-page="sales">
+                  <i class="bi bi-receipt"></i>
+                  <span class="nav-text">Sales</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="purchase.html" data-page="purchase">
+                  <i class="bi bi-cart3"></i>
+                  <span class="nav-text">Purchase</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="parties.html" data-page="parties">
+                  <i class="bi bi-people"></i>
+                  <span class="nav-text">Parties</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="reports.html" data-page="reports">
+                  <i class="bi bi-graph-up"></i>
+                  <span class="nav-text">Reports</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="users.html" data-page="users">
+                  <i class="bi bi-person-gear"></i>
+                  <span class="nav-text">Users</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="sidebar-footer">
+            <!-- Sync / Auto-Refresh Widget -->
+            <div class="sidebar-sync-widget mb-2 p-2 rounded" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);">
+              <div class="d-flex align-items-center justify-content-between mb-1 sync-text-row">
+                <span class="small text-white-50" style="font-size: 11px;">
+                  <i class="bi bi-clock-history me-1 text-info"></i>Auto Sync
+                </span>
+                <span class="badge bg-dark text-info px-2 py-1" id="syncCountdown" style="font-family: monospace; font-size: 11px; letter-spacing: 0.5px;">
+                  03:00
+                </span>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline-light w-100 d-flex align-items-center justify-content-center gap-1 py-1" id="btnForceRefresh" onclick="SGD.forceRefreshData()" title="Force Refresh Data Now" style="font-size: 11.5px; border-color: rgba(255,255,255,0.25);">
+                <i class="bi bi-arrow-clockwise" id="refreshIcon"></i>
+                <span class="nav-text">Force Refresh</span>
+              </button>
+            </div>
+
+            <a class="nav-link" href="#" onclick="SGD.logout()">
+              <i class="bi bi-box-arrow-right"></i>
+              <span class="nav-text">Logout</span>
+            </a>
+          </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content" id="mainContent">
+          <header class="top-header">
+            <div
+              class="d-flex align-items-center justify-content-between w-100 px-4"
+            >
+              <div class="d-flex align-items-center">
+                <button
+                  class="btn btn-link text-dark sidebar-toggle p-0 me-3"
+                  id="sidebarToggle"
+                  onclick="SGD.toggleSidebar()"
+                >
+                  <i class="bi bi-list fs-4"></i>
+                </button>
+                <h5 class="mb-0 page-title">Dashboard</h5>
+              </div>
+              <div class="d-flex align-items-center gap-3">
+                <span class="text-muted" id="currentUserDisplay"></span>
+                <div class="dropdown">
+                  <button
+                    class="btn btn-link text-dark p-0"
+                    data-bs-toggle="dropdown"
+                  >
+                    <i class="bi bi-person-circle fs-4"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        ><i class="bi bi-person me-2"></i>Profile</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        ><i class="bi bi-gear me-2"></i>Settings</a
+                      >
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a
+                        class="dropdown-item text-danger"
+                        href="#"
+                        onclick="SGD.logout()"
+                        ><i class="bi bi-box-arrow-right me-2"></i>Logout</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <div id="app-content-placeholder"></div>
+        </div>
+      </div>
+
+      <!-- Quick Add Party Modal (Shared across Sales, Purchase & Parties) -->
+      <div class="modal fade" id="quickAddPartyModal" tabindex="-1" aria-hidden="true" style="z-index: 1065;">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header py-3" style="background: linear-gradient(90deg, #f5f8ff 0%, #fff 100%);">
+              <h5 class="modal-title mb-0" style="font-weight: 700; color: #0d2157;">
+                <i class="bi bi-person-plus-fill me-2 text-primary"></i><span id="quickPartyModalTitle">Quick Add Customer</span>
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+              <form id="quickPartyForm" onsubmit="event.preventDefault(); saveQuickParty();">
+                <div class="row g-3">
+                  <div class="col-md-7">
+                    <label class="form-label small fw-bold">Party / Business Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="quickPartyName" required placeholder="e.g. Acme Decors">
+                  </div>
+                  <div class="col-md-5">
+                    <label class="form-label small fw-bold">Party Type <span class="text-danger">*</span></label>
+                    <select class="form-select" id="quickPartyType" required>
+                      <option value="Customer">Customer</option>
+                      <option value="Supplier">Supplier</option>
+                      <option value="Both">Both (Customer &amp; Supplier)</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label small fw-bold">Phone Number <span class="text-danger">*</span></label>
+                    <input type="tel" class="form-control" id="quickPartyPhone" required placeholder="e.g. 9876543210">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label small fw-bold">GSTIN <span class="text-muted fw-normal">(Optional)</span></label>
+                    <input type="text" class="form-control" id="quickPartyGSTIN" placeholder="15-digit GSTIN" maxlength="15" style="text-transform: uppercase;">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label small fw-bold">State</label>
+                    <select class="form-select" id="quickPartyState" onchange="onQuickPartyStateChange()">
+                      <!-- Populated by JS -->
+                    </select>
+                    <input type="hidden" id="quickPartyStateCode" value="19">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label small fw-bold">City</label>
+                    <input type="text" class="form-control" id="quickPartyCity" value="Kolkata">
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label small fw-bold">Address <span class="text-muted fw-normal">(Optional)</span></label>
+                    <input type="text" class="form-control" id="quickPartyAddress" placeholder="Street, locality...">
+                  </div>
+
+                  <div class="col-md-8">
+                    <label class="form-label small fw-bold">Opening Balance <span class="text-muted fw-normal">(Optional)</span></label>
+                    <input type="number" class="form-control" id="quickPartyOpeningBalance" value="0" min="0" step="any">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold">Balance Type</label>
+                    <select class="form-select" id="quickPartyBalanceType">
+                      <option value="Dr">Dr (Receivable)</option>
+                      <option value="Cr">Cr (Payable)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4 pt-2 border-top">
+                  <button type="button" class="btn btn-secondary btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary btn-sm px-4" id="btnSaveQuickParty">
+                    <i class="bi bi-check2-circle me-1"></i>Save &amp; Select
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Auth JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="js/views.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/auth.js"></script>
-</body>
+    <script src="js/dashboard.js"></script>
+    <script src="js/invoice.js"></script>
+    <script src="js/inventory.js"></script>
+    <script src="js/sales.js"></script>
+    <script src="js/purchase.js"></script>
+    <script src="js/parties.js"></script>
+    <script src="js/reports.js"></script>
+    <script src="js/users.js"></script>
+  </body>
 </html>
