@@ -8,7 +8,7 @@ const SGD = {
     API_URL:
       "https://script.google.com/macros/s/AKfycbwjYasx-fhviaX1DLnQY-rm9vlbpsUfYMTdhuMnJKJ1klpnBNzIRGG_Ui1XB7Ao0QgYUw/exec",
 
-    APP_NAME: "SGD ERP",
+    APP_NAME: "CHAYA ERP",
     CURRENCY_SYMBOL: "₹",
     DEMO_MODE: false, // Set to true to use demo data without backend
     STATE_CODE: "19", // West Bengal
@@ -1302,8 +1302,8 @@ const SGD = {
               result = {
                 success: true,
                 data: {
-                  CompanyName: "SGD",
-                  TradeName: "SGD Interior & Wallpaper",
+                  CompanyName: "CHAYA",
+                  TradeName: "CHAYA Wallpaper & Interior",
                   State: "West Bengal",
                   StateCode: "19",
                 },

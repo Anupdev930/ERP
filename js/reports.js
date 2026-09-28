@@ -1173,7 +1173,7 @@ window.exportToExcel = function () {
 
   const filters = _getFilters();
   const reportName = (REPORT_CONFIG[currentReportType]?.title || "Report").replace(/[^a-zA-Z0-9 ]/g, "");
-  const fileName = `SGD_${currentReportType.toUpperCase()}_${filters.fromStr || "all"}_to_${filters.toStr || "all"}`;
+  const fileName = `CHAYA_${currentReportType.toUpperCase()}_${filters.fromStr || "all"}_to_${filters.toStr || "all"}`;
 
   const cleanRows = currentReportData.map(r => {
     const o = { ...r };
@@ -1209,7 +1209,7 @@ window.exportToExcel = function () {
     let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
       <head><meta charset="UTF-8"><style>th{background-color:#0d2157;color:#fff;font-weight:bold;text-align:center;} td{border:1px solid #ccc;}</style></head>
       <body>
-        <h3>SGD ERP — ${REPORT_CONFIG[currentReportType]?.title || "Report"}</h3>
+        <h3>CHAYA ERP — ${REPORT_CONFIG[currentReportType]?.title || "Report"}</h3>
         <p>Period: ${filters.fromStr || "All"} to ${filters.toStr || "All"}</p>
         <table border="1">
           <thead><tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr></thead>
@@ -1262,7 +1262,7 @@ window.exportToCSV = function () {
     const a    = document.createElement("a");
     const filters = _getFilters();
     a.href = url;
-    a.download = `SGD_${currentReportType.toUpperCase()}_${filters.fromStr || "all"}_to_${filters.toStr || "all"}.csv`;
+    a.download = `CHAYA_${currentReportType.toUpperCase()}_${filters.fromStr || "all"}_to_${filters.toStr || "all"}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

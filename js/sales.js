@@ -96,7 +96,7 @@ async function loadSales() {
       salesData = [
         {
           id: 1,
-          invoiceNo: "SGD_0001_26-27",
+          invoiceNo: "CHAYA_0001_26-27",
           date: "12-09-2026",
           customerName: "Rahul Enterprises",
           totalQty: 10,
@@ -238,7 +238,7 @@ async function openNewSale() {
   document.getElementById("saleForm")?.reset();
   const invNoEl = document.getElementById("invoiceNo");
   if (invNoEl) {
-    invNoEl.value = `SGD_${String(salesData.length + 1).padStart(4, "0")}_26-27`;
+    invNoEl.value = `CHAYA_${String(salesData.length + 1).padStart(4, "0")}_26-27`;
   }
 
   // Ensure parties are loaded

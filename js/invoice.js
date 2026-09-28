@@ -206,7 +206,7 @@ class InvoiceGenerator {
   ${this._totals(saleData, t)}
   ${this._footer(saleData, t)}
   <div style="text-align:center;padding:8px;font-size:10.5px;color:${t.cgText};background:${t.cgBg};letter-spacing:0.4px">
-    &#10003; This is a Computer Generated Invoice &nbsp;|&nbsp; SGD Interior &amp; Wallpaper, Kolkata
+    &#10003; This is a Computer Generated Invoice &nbsp;|&nbsp; CHAYA Wallpaper &amp; Interior, Kolkata
   </div>
 </div>
 </body>
@@ -225,41 +225,48 @@ class InvoiceGenerator {
     const invDate = data.date        || data.InvoiceDate  || "";
     const pos     = data.placeOfSupply || data.PlaceOfSupply || "West Bengal (19)";
     const veh     = data.vehicleNo   || data.TransportVehicleNo || "—";
+    const logoSrc = (typeof window !== "undefined" && window.CHAYA_LOGO) ? window.CHAYA_LOGO : "Logo/Logo.jpeg";
 
     return `
-<div style="background:${t.hdrGrad};padding:26px 30px 20px;position:relative;overflow:hidden">
+<div style="background:${t.hdrGrad};padding:22px 28px 18px;position:relative;overflow:hidden">
   <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.05)"></div>
   <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1">
-    <div>
-      <div style="color:${t.hdrText};font-size:22px;font-weight:800;margin-bottom:3px;letter-spacing:-0.3px">&#127968; SGD Interior &amp; Wallpaper</div>
-      <div style="color:${t.hdrSub};font-size:11.5px;margin-bottom:6px">Premium Wallpaper &amp; Interior Decoration</div>
-      <div style="color:${t.hdrSub};font-size:11.5px;line-height:1.7">
-        Sector V, Salt Lake, Kolkata, West Bengal — 700091<br>
-        Phone: +91 98765 43210 &nbsp;|&nbsp; Email: info@sgd.com
+    <div style="display:flex;align-items:center;gap:16px">
+      <div style="width:78px;height:78px;border-radius:50%;padding:2px;background:rgba(255,255,255,0.95);box-shadow:0 3px 10px rgba(0,0,0,0.22);flex-shrink:0;">
+        <img src="${logoSrc}" alt="CHAYA" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;">
       </div>
-      <div style="margin-top:7px;color:#ffd54f;font-size:11.5px;font-weight:600;letter-spacing:0.2px">
-        GSTIN: 19ABCDE1234F1Z5 &nbsp;|&nbsp; State Code: 19
+      <div>
+        <div style="color:${t.hdrText};font-size:24px;font-weight:900;letter-spacing:1px;line-height:1.1;margin-bottom:2px">CHAYA</div>
+        <div style="color:${t.hdrSub};font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Wallpaper &amp; Interior</div>
+        <div style="color:${t.hdrSub};font-size:11px;line-height:1.6">
+          Premium Wallpapers &bull; Custom Interiors &bull; Flooring<br>
+          Sector V, Salt Lake, Kolkata, West Bengal — 700091<br>
+          Phone: +91 98765 43210 &nbsp;|&nbsp; Email: info@chayainterior.com
+        </div>
+        <div style="margin-top:5px;color:#ffd54f;font-size:11px;font-weight:700;letter-spacing:0.3px">
+          GSTIN: 19ABCDE1234F1Z5 &nbsp;|&nbsp; State Code: 19
+        </div>
       </div>
     </div>
     <div style="text-align:right">
-      <div style="display:inline-block;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.35);color:${t.hdrText};font-size:14px;font-weight:800;letter-spacing:3px;padding:6px 16px;border-radius:6px;margin-bottom:14px;text-transform:uppercase">
+      <div style="display:inline-block;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.35);color:${t.hdrText};font-size:14px;font-weight:800;letter-spacing:3px;padding:6px 16px;border-radius:6px;margin-bottom:12px;text-transform:uppercase">
         Tax Invoice
       </div>
       <table style="color:${t.hdrText};font-size:12px;margin-left:auto">
         <tr>
-          <td style="color:${t.hdrMeta};padding-right:12px;padding-bottom:4px">Invoice No</td>
+          <td style="color:${t.hdrMeta};padding-right:12px;padding-bottom:3px">Invoice No</td>
           <td style="font-weight:700;color:${t.hdrText}">${invNo}</td>
         </tr>
         <tr>
-          <td style="color:${t.hdrMeta};padding-right:12px;padding-bottom:4px">Date</td>
+          <td style="color:${t.hdrMeta};padding-right:12px;padding-bottom:3px">Date</td>
           <td style="font-weight:600;color:${t.hdrText}">${invDate}</td>
         </tr>
         <tr>
-          <td style="color:${t.hdrMeta};padding-right:12px;padding-bottom:4px">Place of Supply</td>
+          <td style="color:${t.hdrMeta};padding-right:12px;padding-bottom:3px">Place of Supply</td>
           <td style="font-weight:600;color:${t.hdrText}">${pos}</td>
         </tr>
         <tr>
-          <td style="color:${t.hdrMeta};padding-right:12px;padding-bottom:4px">Vehicle No</td>
+          <td style="color:${t.hdrMeta};padding-right:12px;padding-bottom:3px">Vehicle No</td>
           <td style="font-weight:600;color:${t.hdrText}">${veh}</td>
         </tr>
         <tr>
@@ -471,7 +478,7 @@ class InvoiceGenerator {
         <div style="border-top:1.5px dashed #999;padding-top:6px;font-size:11px;color:#666;margin-top:36px">Customer Signature</div>
       </div>
       <div style="text-align:center;width:45%">
-        <div style="border-top:1.5px dashed #999;padding-top:6px;font-size:11px;color:#666;margin-top:36px">For SGD Interior &amp; Wallpaper</div>
+        <div style="border-top:1.5px dashed #999;padding-top:6px;font-size:11px;color:#666;margin-top:36px">For CHAYA Wallpaper &amp; Interior</div>
       </div>
     </div>
   </div>

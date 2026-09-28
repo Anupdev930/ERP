@@ -1498,7 +1498,7 @@ window.Views.users = `<div class="content-area" style="padding: 20px 24px;">
 
             <div class="col-md-6">
               <label class="form-label small fw-bold">Email</label>
-              <input type="email" class="form-control form-control-sm" id="userEmail" placeholder="e.g. user@sgd.com">
+              <input type="email" class="form-control form-control-sm" id="userEmail" placeholder="e.g. user@chayainterior.com">
             </div>
             <div class="col-md-6">
               <label class="form-label small fw-bold">Phone Number</label>

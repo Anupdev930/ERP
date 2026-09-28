@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     return {
       success: false,
-      message: "Invalid username or password. (Demo: admin/admin123, manager1/manager123, staff1/staff123)",
+      message: "Invalid username or password. Please try again.",
     };
   }
 });
