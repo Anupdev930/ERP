@@ -19,6 +19,7 @@
     />
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/responsive.css" rel="stylesheet" />
+    <link href="css/mobile.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
@@ -225,8 +226,16 @@
                 </button>
                 <h5 class="mb-0 page-title">Dashboard</h5>
               </div>
-              <div class="d-flex align-items-center gap-3">
-                <span class="text-muted" id="currentUserDisplay"></span>
+              <div class="d-flex align-items-center gap-2">
+                <button
+                  class="btn btn-link text-primary p-0 me-1 d-md-none"
+                  id="mobileHeaderRefreshBtn"
+                  onclick="SGD.forceRefreshData()"
+                  title="Refresh Data"
+                >
+                  <i class="bi bi-arrow-clockwise fs-4"></i>
+                </button>
+                <span class="text-muted d-none d-md-inline" id="currentUserDisplay"></span>
                 <div class="dropdown">
                   <button
                     class="btn btn-link text-dark p-0"
@@ -340,6 +349,30 @@
           </div>
         </div>
       </div>
+
+      <!-- Native Mobile App Bottom Navigation Bar -->
+      <nav class="mobile-bottom-nav d-md-none" id="mobileBottomNav">
+        <a href="#dashboard" class="mobile-nav-item active" data-page="dashboard" onclick="SGD.navigate('dashboard')">
+          <i class="bi bi-speedometer2"></i>
+          <span>Home</span>
+        </a>
+        <a href="#sales" class="mobile-nav-item" data-page="sales" onclick="SGD.navigate('sales')">
+          <i class="bi bi-receipt"></i>
+          <span>Sales</span>
+        </a>
+        <a href="#inventory" class="mobile-nav-item" data-page="inventory" onclick="SGD.navigate('inventory')">
+          <i class="bi bi-box-seam"></i>
+          <span>Stock</span>
+        </a>
+        <a href="#reports" class="mobile-nav-item" data-page="reports" onclick="SGD.navigate('reports')">
+          <i class="bi bi-graph-up"></i>
+          <span>Reports</span>
+        </a>
+        <a href="javascript:void(0)" class="mobile-nav-item" onclick="SGD.toggleSidebar()" id="mobileMenuBtn">
+          <i class="bi bi-grid-fill"></i>
+          <span>Menu</span>
+        </a>
+      </nav>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
