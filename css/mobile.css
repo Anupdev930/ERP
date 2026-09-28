@@ -1,0 +1,615 @@
+/* ==========================================================================
+   MOBILE.CSS — CHAYA ERP Native Mobile App Experience
+   Designed for iOS Safari & Android Chrome (Screens <= 768px)
+   Features:
+   - Compact Mobile Cards with "Show Details ▾" (No data clutter!)
+   - Fixed Top App Bar & Native Bottom Navigation Bar
+   - Touch-friendly 44px tap targets & iOS auto-zoom prevention (16px inputs)
+   - Bottom Sheet Modals with pull indicator
+   - Compact 2x2 Stat Cards Grid
+   ========================================================================== */
+
+/* ── Mobile Base & Touch Optimization ── */
+@media (max-width: 768px) {
+  :root {
+    --mobile-nav-height: 62px;
+    --mobile-header-height: 56px;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  html {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
+
+  body {
+    -webkit-tap-highlight-color: transparent;
+    background-color: #f7f9fc !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    height: auto !important;
+    min-height: 100% !important;
+    padding-bottom: calc(var(--mobile-nav-height) + var(--safe-bottom) + 24px) !important;
+  }
+
+  /* ── Mobile Layout Container: All wrappers visible overflow so window scrolls naturally ── */
+  #app-view,
+  #wrapper,
+  .main-wrapper,
+  .main-content,
+  #app-content-placeholder,
+  .content-area {
+    display: block !important;
+    overflow: visible !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .content-area {
+    padding: 12px 14px 24px !important;
+  }
+
+  /* ── Mobile Sticky Top App Bar ── */
+  .top-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1030 !important;
+    height: var(--mobile-header-height) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.9) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    padding: 0 14px !important;
+  }
+
+  .top-header .page-title {
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    color: #0d2157 !important;
+    letter-spacing: -0.2px;
+  }
+
+  .sidebar-toggle {
+    font-size: 24px !important;
+    color: #0d2157 !important;
+  }
+
+  /* ── Mobile App Bottom Navigation Bar ── */
+  .mobile-bottom-nav {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: calc(var(--mobile-nav-height) + var(--safe-bottom)) !important;
+    padding-bottom: var(--safe-bottom) !important;
+    background: #ffffff !important;
+    border-top: 1px solid #e2e8f0 !important;
+    box-shadow: 0 -4px 16px rgba(13, 33, 87, 0.08) !important;
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    z-index: 1045 !important;
+  }
+
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    height: 100%;
+    color: #64748b;
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    transition: all 0.2s ease;
+    position: relative;
+    padding-top: 4px;
+  }
+
+  .mobile-nav-item i {
+    font-size: 20px;
+    margin-bottom: 2px;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .mobile-nav-item.active,
+  .mobile-nav-item:active {
+    color: #1e88e5 !important;
+  }
+
+  .mobile-nav-item.active i {
+    transform: translateY(-2px);
+    color: #1e88e5;
+  }
+
+  .mobile-nav-item.active::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 28px;
+    height: 3px;
+    background: #1e88e5;
+    border-radius: 0 0 4px 4px;
+  }
+
+  /* ── Mobile Slide-Over Drawer (Sidebar) ── */
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 290px !important;
+    max-width: 85vw !important;
+    z-index: 1060 !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0) !important;
+    box-shadow: 8px 0 28px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 1055;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .sidebar-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── Compact 2x2 Grid for Stat Cards ── */
+  .row.g-3.mb-4,
+  .row.mb-4.g-3,
+  .stat-cards-row {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    margin: 0 0 14px 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .row.g-3.mb-4 > [class*="col-"],
+  .row.mb-4.g-3 > [class*="col-"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .stat-card {
+    padding: 10px 12px !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+    overflow: hidden !important;
+    min-width: 0 !important;
+  }
+
+  .stat-card .stat-details {
+    min-width: 0 !important;
+    flex: 1 !important;
+    overflow: hidden !important;
+  }
+
+  .stat-card .stat-value {
+    font-size: 14.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .stat-card .stat-title {
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    opacity: 0.85 !important;
+    margin-top: 2px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .stat-icon-wrapper {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    font-size: 16px !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-right: 8px !important;
+  }
+
+  /* ========================================================================
+     UNIVERSAL COMPACT MOBILE CARDS WITH "SHOW DETAILS ▾"
+     Transforms tables into modern touch cards on phones without horizontal overflow!
+     ======================================================================== */
+  .table-responsive {
+    overflow: visible !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Remove outer card background/padding on mobile to avoid double cards */
+  .content-area > .card.shadow-sm,
+  .content-area > .card.border-0 {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .content-area > .card.shadow-sm > .card-body,
+  .content-area > .card.border-0 > .card-body {
+    padding: 0 !important;
+  }
+
+  /* Tables transform to stacked cards */
+  .table-responsive > table.table:not(.no-mobile-cards),
+  .table-responsive > table.erp-table:not(.no-mobile-cards) {
+    display: block !important;
+    width: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    border-collapse: separate !important;
+  }
+
+  .table-responsive > table.table:not(.no-mobile-cards) > thead,
+  .table-responsive > table.erp-table:not(.no-mobile-cards) > thead {
+    display: none !important; /* Hide desktop table headers on mobile */
+  }
+
+  .table-responsive > table.table:not(.no-mobile-cards) > tbody,
+  .table-responsive > table.erp-table:not(.no-mobile-cards) > tbody {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  /* Each Row becomes an elevated Mobile Card */
+  .table-responsive > table.table:not(.no-mobile-cards) > tbody > tr,
+  .table-responsive > table.erp-table:not(.no-mobile-cards) > tbody > tr {
+    display: block !important;
+    background: #ffffff !important;
+    border-radius: 14px !important;
+    padding: 13px 14px !important;
+    margin-bottom: 12px !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 2px 8px rgba(13, 33, 87, 0.05) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ── Secondary Detail Cells (HIDDEN BY DEFAULT ON MOBILE!) ── */
+  .table-responsive > table.table > tbody > tr:not(.details-open) > td.cell-detail,
+  .table-responsive > table.table > tbody > tr:not(.details-open) > td.mobile-detail,
+  .table-responsive > table.erp-table > tbody > tr:not(.details-open) > td.cell-detail,
+  .table-responsive > table.erp-table > tbody > tr:not(.details-open) > td.mobile-detail {
+    display: none !important; /* HIDE UNTIL "DETAILS" CLICKED! */
+  }
+
+  /* Every normal visible TD is a clean key-value row */
+  .table-responsive > table.table > tbody > tr > td,
+  .table-responsive > table.erp-table > tbody > tr > td {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 4px 0 !important;
+    border: none !important;
+    font-size: 13px !important;
+    color: #1e293b !important;
+    background: transparent !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Field label generated cleanly from data-label */
+  .table-responsive > table.table > tbody > tr > td[data-label]::before,
+  .table-responsive > table.erp-table > tbody > tr > td[data-label]::before {
+    content: attr(data-label);
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+    margin-right: 12px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Status badge floating top-right */
+  .table-responsive > table.table > tbody > tr > td[data-label="Status"],
+  .table-responsive > table.erp-table > tbody > tr > td[data-label="Status"] {
+    position: absolute !important;
+    top: 13px !important;
+    right: 14px !important;
+    width: auto !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+  .table-responsive > table.table > tbody > tr > td[data-label="Status"]::before,
+  .table-responsive > table.erp-table > tbody > tr > td[data-label="Status"]::before {
+    display: none !important;
+  }
+
+  /* Card Header: Primary Title (Bill #, Invoice #, Item Name, Party Name) */
+  .table-responsive > table.table > tbody > tr > td[data-label="Bill #"],
+  .table-responsive > table.table > tbody > tr > td[data-label="Invoice #"],
+  .table-responsive > table.table > tbody > tr > td[data-label="Item Name"],
+  .table-responsive > table.table > tbody > tr > td[data-label="Party Name"] {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #0d2157 !important;
+    padding-bottom: 6px !important;
+    margin-bottom: 4px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    padding-right: 85px !important; /* prevent overlapping with floating status badge */
+  }
+
+  /* Expanded Detail cells when user taps "Details" */
+  .table-responsive > table.table > tbody > tr.details-open > td.cell-detail,
+  .table-responsive > table.table > tbody > tr.details-open > td.mobile-detail,
+  .table-responsive > table.erp-table > tbody > tr.details-open > td.cell-detail,
+  .table-responsive > table.erp-table > tbody > tr.details-open > td.mobile-detail {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: #f8fafc !important;
+    padding: 6px 8px !important;
+    border-radius: 6px !important;
+    margin: 3px 0 !important;
+    border: none !important;
+    font-size: 12.5px !important;
+  }
+
+  /* Actions Bar on Card */
+  .table-responsive > table.table > tbody > tr > td[data-label="Actions"],
+  .table-responsive > table.erp-table > tbody > tr > td[data-label="Actions"] {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding-top: 10px !important;
+    margin-top: 6px !important;
+    border-top: 1px dashed #e2e8f0 !important;
+  }
+  .table-responsive > table.table > tbody > tr > td[data-label="Actions"]::before,
+  .table-responsive > table.erp-table > tbody > tr > td[data-label="Actions"]::before {
+    display: none !important;
+  }
+  .table-responsive > table.table > tbody > tr > td[data-label="Actions"] .btn,
+  .table-responsive > table.erp-table > tbody > tr > td[data-label="Actions"] .btn {
+    padding: 5px 12px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+  }
+
+  /* ── Mobile Details Toggle Button ── */
+  .mobile-card-toggle {
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #1e88e5 !important;
+    padding: 6px 12px !important;
+    width: 100% !important;
+    margin-top: 8px !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .mobile-show-details-btn {
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #1e88e5 !important;
+    padding: 5px 10px !important;
+    width: auto !important;
+    margin-top: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .mobile-card-toggle:hover,
+  .mobile-show-details-btn:hover,
+  .mobile-card-toggle.active,
+  .mobile-show-details-btn.active {
+    background: #eef2ff !important;
+    color: #0d2157 !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  /* ========================================================================
+     SPECIALIZED MOBILE REPORTS STYLING
+     ======================================================================== */
+  .mobile-reports-cards {
+    margin-top: 8px;
+  }
+
+  .mobile-card,
+  .mobile-report-card {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(13, 33, 87, 0.05);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-report-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0d2157;
+  }
+
+  .mobile-report-subtitle {
+    font-size: 12px;
+    color: #64748b;
+  }
+
+  .mobile-report-amount {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1e88e5;
+  }
+
+  .mobile-card-details {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+
+  .mobile-total-card {
+    border-radius: 14px !important;
+    box-shadow: 0 4px 14px rgba(13, 33, 87, 0.25) !important;
+  }
+
+  /* ── Mobile Form Inputs & Search Filters ── */
+  .input-group,
+  .form-control,
+  .form-select {
+    font-size: 15px !important; /* Prevents iOS auto-zoom */
+    min-height: 42px !important;
+    border-radius: 10px !important;
+  }
+
+  .form-label {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #334155 !important;
+    margin-bottom: 4px !important;
+  }
+
+  .btn {
+    min-height: 42px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    touch-action: manipulation;
+  }
+
+  .btn-sm {
+    min-height: 34px !important;
+    font-size: 12px !important;
+  }
+
+  /* ── Mobile Floating Action Button (FAB) ── */
+  .mobile-fab-btn {
+    position: fixed;
+    bottom: calc(var(--mobile-nav-height) + var(--safe-bottom) + 16px);
+    right: 18px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e88e5 0%, #0d2157 100%);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 6px 18px rgba(30, 136, 229, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    z-index: 1040;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .mobile-fab-btn:active {
+    transform: scale(0.92);
+  }
+
+  /* ── Mobile Bottom Sheet Modals ── */
+  .modal-dialog {
+    margin: 0 !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    transform: translateY(100%) !important;
+    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
+  }
+
+  .modal.show .modal-dialog {
+    transform: translateY(0) !important;
+  }
+
+  .modal-content {
+    border-radius: 20px 20px 0 0 !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    border: none !important;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  /* Bottom sheet drag indicator */
+  .modal-content::before {
+    content: "";
+    display: block;
+    width: 38px;
+    height: 4px;
+    background: #cbd5e1;
+    border-radius: 2px;
+    margin: 8px auto 0;
+  }
+
+  .modal-header {
+    padding: 10px 18px 12px !important;
+  }
+
+  .modal-body {
+    padding: 14px 18px 24px !important;
+  }
+
+  /* ── Invoice Mobile Modal View ── */
+  #invoiceModal .modal-dialog {
+    max-height: 95vh;
+  }
+
+  #invoiceModal iframe.inv-frame {
+    min-height: 550px !important;
+  }
+}
