@@ -1106,24 +1106,119 @@ function renderHsnReport(sales, filters) {
   );
 }
 
-// ── Shared Table Renderer ──────────────────────────────────────────────────
+// ── Shared Table Renderer (Desktop Table + Mobile Cards with "Show Details") ─
 function _renderTable(headers, rowsHTML, containerId, footerRow = "") {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  if (!rowsHTML || !rowsHTML.length) {
+    container.innerHTML = `
+      <div class="text-center py-5 text-muted bg-white rounded-3 shadow-sm p-4">
+        <i class="bi bi-inbox" style="font-size:36px;opacity:.3"></i>
+        <p class="mt-2 mb-0 fw-medium">No records found for the selected date range and filters.</p>
+      </div>`;
+    return;
+  }
+
+  // 1. Desktop Table View (Hidden on mobile)
   const theads = headers.map(h => {
     const isNum = h.includes("(₹)") || h === "Total" || h === "Balance" || h.includes("Stock") || h.includes("Needed") || h.includes("Quantity");
     return `<th style="${isNum ? 'text-align:right;' : ''}">${h}</th>`;
   }).join("");
 
-  const container = document.getElementById(containerId);
-  if (!container) return;
+  const desktopHtml = `
+    <div class="table-responsive d-none d-md-block">
+      <table class="erp-table" id="reportDataTable_${containerId}">
+        <thead><tr>${theads}</tr></thead>
+        <tbody>
+          ${rowsHTML.join("")}
+        </tbody>
+        ${footerRow ? `<tfoot>${footerRow}</tfoot>` : ""}
+      </table>
+    </div>`;
 
-  container.innerHTML = `
-    <table class="erp-table" id="reportDataTable_${containerId}">
-      <thead><tr>${theads}</tr></thead>
-      <tbody>
-        ${rowsHTML.length ? rowsHTML.join("") : `<tr><td colspan="${headers.length}" class="text-center py-5 text-muted"><i class="bi bi-inbox" style="font-size:32px;opacity:.3"></i><p class="mt-2 mb-0">No records found for the selected date range and filters.</p></td></tr>`}
-      </tbody>
-      ${footerRow ? `<tfoot>${footerRow}</tfoot>` : ""}
-    </table>`;
+  // 2. Mobile Native Card View (Hidden on desktop)
+  let mobileHtml = "";
+  if (Array.isArray(currentReportData) && currentReportData.length > 0) {
+    const cards = currentReportData.map((item, idx) => {
+      // Find key summary fields
+      const title = item["Invoice No"] || item["Bill No"] || item["Item Name"] || item["Party Name"] || item["Particulars"] || item["Component"] || item["HSN / SAC"] || item["Ref / Voucher"] || item["Ref No"] || (item[headers[0]] && item[headers[0]] !== "-" ? item[headers[0]] : `Record #${idx + 1}`);
+      const subtitle = item["Date"] || item["Time / Date"] || item["Customer"] || item["Supplier"] || item["Category"] || item["Type"] || "";
+      
+      let amountVal = "";
+      if (item["Total (₹)"] !== undefined) amountVal = SGD.formatCurrency(item["Total (₹)"]);
+      else if (item["Total Amount (₹)"] !== undefined) amountVal = SGD.formatCurrency(item["Total Amount (₹)"]);
+      else if (item["Balance (₹)"] !== undefined) amountVal = SGD.formatCurrency(item["Balance (₹)"]);
+      else if (item["Amount (₹)"] !== undefined) amountVal = SGD.formatCurrency(item["Amount (₹)"]);
+      else if (item["Receivable (₹)"] !== undefined && parseFloat(item["Receivable (₹)"]) > 0) amountVal = "Rec: " + SGD.formatCurrency(item["Receivable (₹)"]);
+      else if (item["Payable (₹)"] !== undefined && parseFloat(item["Payable (₹)"]) > 0) amountVal = "Pay: " + SGD.formatCurrency(item["Payable (₹)"]);
+      else if (item["Current Stock"] !== undefined) amountVal = "Stock: " + item["Current Stock"] + (item["Unit"] ? " " + item["Unit"] : "");
+      else if (item["Total Tax (₹)"] !== undefined) amountVal = "Tax: " + SGD.formatCurrency(item["Total Tax (₹)"]);
+
+      // Status badge
+      const status = item["Status"] || "";
+      let statusBadge = "";
+      if (status) {
+        const sLower = String(status).toLowerCase();
+        let bg = "bg-warning text-dark";
+        if (sLower === "paid" || sLower === "ok" || sLower === "active") bg = "bg-success";
+        else if (sLower === "unpaid" || sLower === "low" || sLower === "inactive") bg = "bg-danger";
+        statusBadge = `<span class="badge ${bg} ms-1" style="font-size:10px;">${status}</span>`;
+      }
+
+      // Collect all detailed fields for collapsible section
+      const details = [];
+      for (const [k, v] of Object.entries(item)) {
+        if (k === "_row" || k === "Status") continue;
+        if (v === undefined || v === null || v === "") continue;
+
+        let displayVal = v;
+        if (k.includes("(₹)") && typeof v === "number") {
+          displayVal = SGD.formatCurrency(v);
+        }
+        details.push(`
+          <div class="d-flex justify-content-between py-1 border-bottom border-light">
+            <span class="text-muted small">${k}</span>
+            <span class="fw-semibold text-end small">${displayVal}</span>
+          </div>
+        `);
+      }
+
+      return `
+        <div class="mobile-report-card">
+          <div class="d-flex justify-content-between align-items-start mb-1">
+            <div class="mobile-report-title me-2">${title}</div>
+            <div class="text-end">
+              ${amountVal ? `<div class="mobile-report-amount">${amountVal}</div>` : ""}
+              ${statusBadge}
+            </div>
+          </div>
+          ${subtitle ? `<div class="mobile-report-subtitle mb-2"><i class="bi bi-tag me-1"></i>${subtitle}</div>` : ""}
+          <button type="button" class="btn btn-sm btn-light border w-100 text-muted d-flex justify-content-between align-items-center py-1 px-2 mt-2 mobile-card-toggle" onclick="SGD.toggleMobileDetails(this)">
+            <span><i class="bi bi-chevron-down me-1"></i><span class="btn-text">Show Details</span></span>
+            <small class="badge bg-secondary bg-opacity-10 text-secondary">${details.length} fields</small>
+          </button>
+          <div class="mobile-card-details mt-2 pt-2 border-top" style="display:none;">
+            ${details.join("")}
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    mobileHtml = `
+      <div class="mobile-reports-cards d-md-none">
+        <div class="d-flex justify-content-between align-items-center mb-2 px-1">
+          <span class="text-muted small fw-semibold"><i class="bi bi-card-list me-1"></i>${currentReportData.length} records</span>
+          <button type="button" class="btn btn-sm btn-link text-decoration-none p-0 fw-semibold" style="font-size:12px;" onclick="SGD.toggleAllMobileDetails(this)">
+            <i class="bi bi-arrows-expand me-1"></i><span class="expand-text">Expand All</span>
+          </button>
+        </div>
+        ${cards}
+      </div>
+    `;
+  }
+
+  container.innerHTML = desktopHtml + mobileHtml;
 }
 
 function _setRowCount(n) {

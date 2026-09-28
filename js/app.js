@@ -534,6 +534,28 @@ const SGD = {
       }
     });
 
+    // Update Mobile Bottom Nav active state
+    const mobileNavLinks = document.querySelectorAll(
+      ".mobile-bottom-nav .mobile-nav-item",
+    );
+    mobileNavLinks.forEach((link) => {
+      link.classList.remove("active");
+      const dPage = link.getAttribute("data-page");
+      if (dPage === page) {
+        link.classList.add("active");
+      }
+    });
+
+    // Auto-close mobile sidebar if open
+    const sidebarEl = document.getElementById("sidebar");
+    const overlayEl = document.getElementById("sidebar-overlay");
+    if (sidebarEl && sidebarEl.classList.contains("active")) {
+      sidebarEl.classList.remove("active");
+    }
+    if (overlayEl && overlayEl.classList.contains("show")) {
+      overlayEl.classList.remove("show");
+    }
+
     // Change page title based on active link
     const activeLink = document.querySelector(
       ".sidebar .nav-link.active .nav-text",
@@ -830,6 +852,92 @@ const SGD = {
                 </div>
             `;
     }
+  },
+
+  // === MOBILE RESPONSIVE HELPERS ===
+  toggleMobileDetails: function (btn) {
+    const card = btn.closest(".mobile-report-card");
+    if (!card) return;
+    const details = card.querySelector(".mobile-card-details");
+    const textSpan = btn.querySelector(".btn-text");
+    const icon = btn.querySelector("i");
+
+    if (!details) return;
+    const isHidden = details.style.display === "none" || !details.style.display;
+    if (isHidden) {
+      details.style.display = "block";
+      if (textSpan) textSpan.textContent = "Hide Details";
+      if (icon) {
+        icon.classList.remove("bi-chevron-down");
+        icon.classList.add("bi-chevron-up");
+      }
+      btn.classList.add("active");
+    } else {
+      details.style.display = "none";
+      if (textSpan) textSpan.textContent = "Show Details";
+      if (icon) {
+        icon.classList.remove("bi-chevron-up");
+        icon.classList.add("bi-chevron-down");
+      }
+      btn.classList.remove("active");
+    }
+  },
+
+  toggleAllMobileDetails: function (btn) {
+    const container = btn.closest(".mobile-reports-cards");
+    if (!container) return;
+    const cards = container.querySelectorAll(".mobile-report-card");
+    const isExpanding = btn.querySelector(".expand-text")?.textContent === "Expand All";
+
+    cards.forEach((card) => {
+      const details = card.querySelector(".mobile-card-details");
+      const toggleBtn = card.querySelector(".mobile-card-toggle");
+      const textSpan = toggleBtn?.querySelector(".btn-text");
+      const icon = toggleBtn?.querySelector("i");
+
+      if (details) {
+        details.style.display = isExpanding ? "block" : "none";
+      }
+      if (textSpan) textSpan.textContent = isExpanding ? "Hide Details" : "Show Details";
+      if (icon) {
+        if (isExpanding) {
+          icon.classList.remove("bi-chevron-down");
+          icon.classList.add("bi-chevron-up");
+        } else {
+          icon.classList.remove("bi-chevron-up");
+          icon.classList.add("bi-chevron-down");
+        }
+      }
+      if (toggleBtn) {
+        if (isExpanding) toggleBtn.classList.add("active");
+        else toggleBtn.classList.remove("active");
+      }
+    });
+
+    const expandText = btn.querySelector(".expand-text");
+    const mainIcon = btn.querySelector("i");
+    if (expandText) {
+      expandText.textContent = isExpanding ? "Collapse All" : "Expand All";
+    }
+    if (mainIcon) {
+      if (isExpanding) {
+        mainIcon.classList.remove("bi-arrows-expand");
+        mainIcon.classList.add("bi-arrows-collapse");
+      } else {
+        mainIcon.classList.remove("bi-arrows-collapse");
+        mainIcon.classList.add("bi-arrows-expand");
+      }
+    }
+  },
+
+  toggleRowDetails: function (btn) {
+    const tr = btn.closest("tr");
+    if (!tr) return;
+    tr.classList.toggle("details-open");
+    const isOpen = tr.classList.contains("details-open");
+    btn.innerHTML = isOpen
+      ? '<i class="bi bi-chevron-up"></i> Less'
+      : '<i class="bi bi-chevron-down"></i> Details';
   },
 
   // === FORM HELPERS ===

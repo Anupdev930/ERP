@@ -59,16 +59,17 @@ function renderPurchases(data = purchaseData) {
   }
 
   data.forEach((p) => {
-    const id = p.id || p.PurchaseID;
-    const billNo = p.billNo || p.BillNo || "-";
-    let rawDate = p.date || p.BillDate || p.Date || "";
+    const id = p.id || p.PurchaseID || p.purchaseId || "";
+    const rawBill = p.billNo || p.BillNo || p.InvoiceNo || p.invoiceNo || "";
+    const billNo = rawBill || (id ? (String(id).startsWith("PUR-") ? id : "PUR-" + id) : "-");
+    let rawDate = p.date || p.BillDate || p.Date || p.billDate || "";
     const dateStr = SGD.formatDate(rawDate);
-    const supplier = p.supplier || p.PartyName || p.SupplierName || "";
+    const supplier = p.supplier || p.PartyName || p.SupplierName || p.partyName || "-";
     const total = parseFloat(
-      p.total !== undefined ? p.total : p.TotalAmount || p.GrandTotal || 0,
+      p.total !== undefined ? p.total : p.TotalAmount || p.GrandTotal || p.totalAmount || 0,
     );
-    const paid = parseFloat(p.paid !== undefined ? p.paid : p.AmountPaid || 0);
-    const status = p.status || p.PaymentStatus || p.Status || "Unpaid";
+    const paid = parseFloat(p.paid !== undefined ? p.paid : p.AmountPaid || p.amountPaid || 0);
+    const status = p.status || p.PaymentStatus || p.paymentStatus || p.Status || "Unpaid";
 
     let statusBadge = "";
     if (status === "Paid")
@@ -83,15 +84,15 @@ function renderPurchases(data = purchaseData) {
 
     const row = `
             <tr>
-                <td>${id}</td>
-                <td>${billNo}</td>
-                <td>${dateStr}</td>
-                <td>${supplier}</td>
-                <td>${SGD.formatCurrency(total)}</td>
-                <td class="text-success">${SGD.formatCurrency(paid)}</td>
-                <td class="text-danger">${SGD.formatCurrency(balance)}</td>
-                <td>${statusBadge}</td>
-                <td class="text-end">
+                <td data-label="Bill #" class="fw-bold text-primary">${billNo}</td>
+                <td data-label="Date">${dateStr}</td>
+                <td data-label="Supplier" class="fw-medium">${supplier}</td>
+                <td data-label="Total Amount" class="text-end fw-bold">${SGD.formatCurrency(total)}</td>
+                <td data-label="Amount Paid" class="text-end text-success cell-detail">${SGD.formatCurrency(paid)}</td>
+                <td data-label="Balance Due" class="text-end text-danger fw-semibold">${SGD.formatCurrency(balance)}</td>
+                <td data-label="Status" class="text-center">${statusBadge}</td>
+                <td data-label="Actions" class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-secondary d-md-none me-1 mobile-show-details-btn" onclick="SGD.toggleRowDetails(this)"><i class="bi bi-chevron-down"></i> Details</button>
                     <button class="btn btn-sm btn-outline-primary" title="View" onclick="viewPurchase('${id}')"><i class="bi bi-eye"></i></button>
                     <button class="btn btn-sm btn-outline-danger" title="Cancel" onclick="cancelPurchase('${id}')"><i class="bi bi-x-circle"></i></button>
                 </td>

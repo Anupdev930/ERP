@@ -176,17 +176,18 @@ function renderTable(data) {
     const tr = document.createElement("tr");
     tr.className = rowClass;
     tr.innerHTML = `
-            <td>${itemCode}</td>
-            <td class="fw-medium">${itemName}</td>
-            <td>${category}</td>
-            <td>${hsn}</td>
-            <td class="text-end fw-bold">${stock}</td>
-            <td>${unit}</td>
-            <td class="text-end">${purchasePrice}</td>
-            <td class="text-end">${sellingPrice}</td>
-            <td class="text-center">${gst}%</td>
-            <td class="text-center">${statusBadge}</td>
-            <td class="text-end">
+            <td data-label="Item Code" class="cell-detail">${itemCode}</td>
+            <td data-label="Item Name" class="fw-medium">${itemName}</td>
+            <td data-label="Category">${category}</td>
+            <td data-label="HSN / SAC" class="cell-detail">${hsn}</td>
+            <td data-label="Current Stock" class="text-end fw-bold">${stock} ${unit}</td>
+            <td data-label="Unit" class="cell-detail">${unit}</td>
+            <td data-label="Cost Price" class="text-end cell-detail">₹ ${purchasePrice}</td>
+            <td data-label="Selling Price" class="text-end fw-semibold">₹ ${sellingPrice}</td>
+            <td data-label="GST Slab" class="text-center cell-detail">${gst}%</td>
+            <td data-label="Status" class="text-center">${statusBadge}</td>
+            <td data-label="Actions" class="text-end">
+                <button type="button" class="btn btn-sm btn-outline-secondary d-md-none me-1 mobile-show-details-btn" onclick="SGD.toggleRowDetails(this)"><i class="bi bi-chevron-down"></i> Details</button>
                 <button class="btn btn-sm btn-outline-primary me-1" onclick="openEditModal('${id}')"><i class="bi bi-pencil"></i></button>
                 <button class="btn btn-sm btn-outline-danger" onclick="deleteItem('${id}')"><i class="bi bi-trash"></i></button>
             </td>

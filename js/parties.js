@@ -121,15 +121,16 @@ function renderParties(data = partiesData) {
 
     const row = `
             <tr>
-                <td>${code}</td>
-                <td><span class="fw-medium">${name}</span></td>
-                <td>${typeBadge}</td>
-                <td>${gstin}</td>
-                <td>${phone}</td>
-                <td>${city}</td>
-                <td>${balStr}</td>
-                <td>${statusStr}</td>
-                <td class="text-end">
+                <td data-label="Code" class="cell-detail">${code}</td>
+                <td data-label="Party Name"><span class="fw-medium">${name}</span></td>
+                <td data-label="Type">${typeBadge}</td>
+                <td data-label="GSTIN" class="cell-detail">${gstin}</td>
+                <td data-label="Phone">${phone ? `<a href="tel:${phone}" class="text-decoration-none"><i class="bi bi-telephone me-1"></i>${phone}</a>` : "-"}</td>
+                <td data-label="City" class="cell-detail">${city}</td>
+                <td data-label="Balance">${balStr}</td>
+                <td data-label="Status" class="cell-detail">${statusStr}</td>
+                <td data-label="Actions" class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-secondary d-md-none me-1 mobile-show-details-btn" onclick="SGD.toggleRowDetails(this)"><i class="bi bi-chevron-down"></i> Details</button>
                     <button class="btn btn-sm btn-outline-info me-1" onclick="viewPartyLedger('${id}')" title="Ledger"><i class="bi bi-journal-text"></i></button>
                     <button class="btn btn-sm btn-outline-primary me-1" onclick="openEditPartyModal('${id}')" title="Edit"><i class="bi bi-pencil"></i></button>
                     <button class="btn btn-sm btn-outline-danger" onclick="deleteParty('${id}')" title="Delete"><i class="bi bi-trash"></i></button>

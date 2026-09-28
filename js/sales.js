@@ -182,15 +182,16 @@ function renderSalesTable(data) {
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-            <td class="fw-bold">${invoiceNo}</td>
-            <td>${dateStr}</td>
-            <td>${customerName}</td>
-            <td class="text-center">${totalQty}</td>
-            <td class="text-end fw-medium">${SGD.formatCurrency(grandTotal)}</td>
-            <td class="text-end text-success">${SGD.formatCurrency(amountPaid)}</td>
-            <td class="text-end text-danger">${SGD.formatCurrency(balance)}</td>
-            <td class="text-center"><span class="badge ${badgeClass}">${status}</span></td>
-            <td class="text-end">
+            <td data-label="Invoice #" class="fw-bold text-primary">${invoiceNo}</td>
+            <td data-label="Date">${dateStr}</td>
+            <td data-label="Customer" class="fw-medium">${customerName}</td>
+            <td data-label="Quantity" class="text-center cell-detail">${totalQty}</td>
+            <td data-label="Total Amount" class="text-end fw-bold">${SGD.formatCurrency(grandTotal)}</td>
+            <td data-label="Amount Paid" class="text-end text-success cell-detail">${SGD.formatCurrency(amountPaid)}</td>
+            <td data-label="Balance Due" class="text-end text-danger fw-semibold">${SGD.formatCurrency(balance)}</td>
+            <td data-label="Status" class="text-center"><span class="badge ${badgeClass}">${status}</span></td>
+            <td data-label="Actions" class="text-end">
+                <button type="button" class="btn btn-sm btn-outline-secondary d-md-none me-1 mobile-show-details-btn" onclick="SGD.toggleRowDetails(this)"><i class="bi bi-chevron-down"></i> Details</button>
                 <button class="btn btn-sm btn-outline-info me-1" title="View/Print" onclick="viewSale('${id}')"><i class="bi bi-eye"></i></button>
                 <button class="btn btn-sm btn-outline-danger" title="Cancel Sale" onclick="cancelSale('${id}')"><i class="bi bi-x-circle"></i></button>
             </td>

@@ -739,14 +739,24 @@ window.Views.purchase = `<div class="content-area p-4">
         <!-- PAGE SPECIFIC CONTENT -->
         
         <!-- Top bar -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div class="d-flex gap-2 w-50">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search by Bill No, Supplier..." oninput="filterPurchases()">
-                <input type="text" id="dateFilter" class="form-control" placeholder="Select Date Range">
+        <div class="row g-2 mb-3 align-items-center">
+            <div class="col-12 col-md-5">
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search by Bill No, Supplier..." oninput="filterPurchases()">
+                </div>
             </div>
-            <button class="btn btn-primary" onclick="openNewPurchase()">
-                <i class="bi bi-plus-circle me-2"></i>New Purchase
-            </button>
+            <div class="col-12 col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-calendar3"></i></span>
+                    <input type="text" id="dateFilter" class="form-control" placeholder="Select Date Range">
+                </div>
+            </div>
+            <div class="col-12 col-md-3 text-md-end">
+                <button class="btn btn-primary w-100" onclick="openNewPurchase()">
+                    <i class="bi bi-plus-circle me-1"></i>New Purchase
+                </button>
+            </div>
         </div>
 
         <!-- Stats mini cards -->
@@ -804,15 +814,14 @@ window.Views.purchase = `<div class="content-area p-4">
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
                             <tr>
-                                <th>ID</th>
                                 <th>Bill No</th>
                                 <th>Date</th>
                                 <th>Supplier</th>
-                                <th>Total Amount</th>
-                                <th>Paid</th>
-                                <th>Balance</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th class="text-end">Total Amount</th>
+                                <th class="text-end">Paid</th>
+                                <th class="text-end">Balance</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-end">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="purchaseTableBody">
@@ -956,24 +965,33 @@ window.Views.purchase = `<div class="content-area p-4">
 window.Views.parties = `<div class="content-area p-4">
         
         <!-- Top bar -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div class="d-flex gap-2 w-50">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search Party Code, Name, GSTIN..." oninput="filterParties()">
+        <div class="row g-2 mb-3 align-items-center">
+            <div class="col-12 col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search Party Code, Name, GSTIN..." oninput="filterParties()">
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
                 <select id="typeFilter" class="form-select" onchange="filterParties()">
                     <option value="">All Types</option>
                     <option value="Customer">Customer</option>
                     <option value="Supplier">Supplier</option>
                     <option value="Both">Both</option>
                 </select>
+            </div>
+            <div class="col-6 col-md-2">
                 <select id="statusFilter" class="form-select" onchange="filterParties()">
                     <option value="">All Status</option>
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
                 </select>
             </div>
-            <button class="btn btn-primary" onclick="openAddPartyModal()">
-                <i class="bi bi-plus-circle me-2"></i>Add Party
-            </button>
+            <div class="col-12 col-md-3 text-md-end">
+                <button class="btn btn-primary w-100" onclick="openAddPartyModal()">
+                    <i class="bi bi-plus-circle me-1"></i>Add Party
+                </button>
+            </div>
         </div>
 
         <!-- Stats mini cards -->
