@@ -157,14 +157,20 @@ a {
 }
 
 .sidebar.collapsed .sidebar-header h4,
-.sidebar.collapsed .sidebar-logo-text {
+.sidebar.collapsed .sidebar-logo-text,
+.sidebar.collapsed .sidebar-logo-text-wrap {
   opacity: 0;
-  display: none;
+  display: none !important;
 }
 .sidebar.collapsed .sidebar-logo-icon,
 .sidebar.collapsed .sidebar-logo {
   margin-right: 0;
   justify-content: center;
+}
+.sidebar.collapsed .sidebar-logo-img {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
 }
 .sidebar.collapsed .sidebar-header {
   justify-content: center;
